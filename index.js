@@ -17,9 +17,9 @@ const questions = [
     // Credits Questions
     // {question: 'Enter collaborators Name'},
     // {question: 'Enter collaborators GitHub username'},
-    {question: 'Did you use any third-party assets that require attribution?'},
-    {question: 'What is the name of the third-party assets?'},
-    {question: 'What is the link to the third-party asset?'},
+    // {question: 'Did you use any third-party assets that require attribution?'},
+    // {question: 'What is the name of the third-party assets?'},
+    // {question: 'What is the link to the third-party asset?'},
 
     {question: 'Did you use any tutorials for this project?'},
     {question: 'Enter the link to your tutorial'},
@@ -70,7 +70,7 @@ const init = () => {
         type: 'input',
         name: 'instInstruct',
         message: 'What are your installation instructions',
-        when: ({ confirmAbout }) => confirmAbout
+        when: ({ confirmInstInstruct }) => confirmInstInstruct
       },
       {
         type: 'input',
@@ -122,6 +122,19 @@ const init = () => {
           }
         },
         {
+            type: 'input',
+            name: 'collabEmail',
+            message: 'Enter your email address (Required)',
+            validate: collabEmailInput => {
+              if (collabEmailInput) {
+                return true;
+              } else {
+                console.log('You need to enter an email!');
+                return false;
+              }
+            }
+          },
+        {
           type: 'confirm',
           name: 'confirmAddCollab',
           message: 'Would you like to enter another collaborator?',
@@ -153,8 +166,7 @@ const init = () => {
             if (nameInput) {
               return true;
             } else {
-              console.log('You need to provide a screenshot for your project');
-              return false;
+              return;
             }
           }
         },
@@ -164,6 +176,7 @@ const init = () => {
           message: 'Would you like to add another screenshot for your project?',
           default: false
         }
+
       ])
       .then(projectData => {
         portfolioData.screenShot.push(projectData);
@@ -175,10 +188,57 @@ const init = () => {
       });
   };
 
+  const promptThirdParty = portfolioData => {
+    if (!portfolioData.thirdPartyInfo) {
+        portfolioData.thirdPartyInfo = [];
+      }
+      return inquirer
+        .prompt([
+            {
+                type: 'confirm',
+                name: 'confirmThirdParty',
+                message: 'Did you use any third-party assets that require attribution?',
+                default: false
+              },
+              {
+                type: 'input',
+                name: 'thirdParty',
+                message: 'What is the name of the third-party assets?',
+                when: ({ confirmThirdParty }) => confirmThirdParty
+              },
+
+              {
+                type: 'input',
+                name: 'thirdPartyLink',
+                message: 'What is the link to the third-party asset?',
+                when: ({ confirmThirdParty }) => confirmThirdParty
+              },
+              {
+                type: 'confirm',
+                name: 'addThirdParty',
+                message: 'Do you want to add another third-party assets that require attribution?',
+                default: false,
+                when: ({ confirmThirdParty }) => confirmThirdParty
+              },
+        ])
+
+        .then(projectData => {
+            portfolioData.thirdPartyInfo.push(projectData);
+            if (projectData.addThirdParty) {
+              return promptThirdParty(portfolioData);
+            } else {
+              return portfolioData;
+            }
+          });
+ };
+
+
+
 // Function call to initialize app
 init()
   .then(promptColab)
   .then(promptScreenshot)
+  .then(promptThirdParty)
   .then(portfolioData => {
       return portfolioData,
       console.log(portfolioData);
