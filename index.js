@@ -11,15 +11,16 @@ const questions = [
     // {question: 'Do you have installation instructions?'},
     // {question: 'What are your installation instructions?'},
     // Usage Questions
-    {question: 'Describe how you use your project'},
-    {question: 'Would you like to include screenshots of your project?'},
-    {question: 'Please provide SRC for your screenshot'},
+    // {question: 'Describe how you use your project'},
+    // {question: 'Would you like to include screenshots of your project?'},
+    // {question: 'Please provide SRC for your screenshot'},
     // Credits Questions
     // {question: 'Enter collaborators Name'},
     // {question: 'Enter collaborators GitHub username'},
     {question: 'Did you use any third-party assets that require attribution?'},
     {question: 'What is the name of the third-party assets?'},
     {question: 'What is the link to the third-party asset?'},
+
     {question: 'Did you use any tutorials for this project?'},
     {question: 'Enter the link to your tutorial'},
     // License Questions
@@ -71,7 +72,19 @@ const init = () => {
         message: 'What are your installation instructions',
         when: ({ confirmAbout }) => confirmAbout
       },
-
+      {
+        type: 'input',
+        name: 'describeUsage',
+        message: 'Enter a description on how to use your project. (Required)',
+        validate: describeUsageInput => {
+          if (describeUsageInput) {
+            return true;
+          } else {
+            console.log('Please describe how to use your project!');
+            return false;
+          }
+        }
+      },     
     ]);
   };
   
@@ -117,8 +130,45 @@ const init = () => {
       ])
       .then(projectData => {
         portfolioData.colaborators.push(projectData);
-        if (projectData.confirmAddProject) {
+        if (projectData.confirmAddCollab) {
           return promptColab(portfolioData);
+        } else {
+          return portfolioData;
+        }
+      });
+  };
+
+  const promptScreenshot = portfolioData => {
+    // If there's no 'projects' array property, create one
+    if (!portfolioData.screenShot) {
+      portfolioData.screenShot = [];
+    }
+    return inquirer
+      .prompt([
+        {
+          type: 'input',
+          name: 'screenShotSRC',
+          message: 'Please proide the SRC for your screenshot to your project (Required)',
+          validate: nameInput => {
+            if (nameInput) {
+              return true;
+            } else {
+              console.log('You need to provide a screenshot for your project');
+              return false;
+            }
+          }
+        },
+        {
+          type: 'confirm',
+          name: 'confirmAddScreenShot',
+          message: 'Would you like to add another screenshot for your project?',
+          default: false
+        }
+      ])
+      .then(projectData => {
+        portfolioData.screenShot.push(projectData);
+        if (projectData.confirmAddScreenShot) {
+          return promptScreenshot(portfolioData);
         } else {
           return portfolioData;
         }
@@ -128,6 +178,7 @@ const init = () => {
 // Function call to initialize app
 init()
   .then(promptColab)
+  .then(promptScreenshot)
   .then(portfolioData => {
       return portfolioData,
       console.log(portfolioData);
