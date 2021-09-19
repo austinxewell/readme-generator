@@ -84,7 +84,21 @@ const init = () => {
             return false;
           }
         }
-      },     
+      },
+      {
+          type: 'checkbox',
+          name: 'licensing',
+          message: 'What license would you like to classify your project as?',
+          choices: ['GNU AGPLv3', 'GNU GPLv3', 'GNU LGPLv3', 'Mozilla Public License 2.0', 'Apache License 2.0', 'MIT License', 'Boost Software License 1.0', 'The Unlicense'],
+          validate: licensingInput => {
+            if (licensingInput) {
+              return true;
+            } else {
+              console.log('You have to select a license!');
+              return false;
+            }
+          }
+      }     
     ]);
   };
   
@@ -232,13 +246,56 @@ const init = () => {
           });
  };
 
+ const promptTutorials = portfolioData => {
+    if (!portfolioData.tutorialsInfo) {
+        portfolioData.tutorialsInfo = [];
+      }
+      return inquirer
+        .prompt([
+            {
+            type: 'confirm',
+            name: 'confirmTutorials',
+            message: 'Did you use any tutorials?',
+            default: false
+          },
+          {
+            type: 'input',
+            name: 'tutorials',
+            message: 'What is the name of the tutorial?',
+            when: ({ confirmTutorials }) => confirmTutorials
+          },
+          {
+            type: 'input',
+            name: 'tutorialsLink',
+            message: 'Enter the link of the tutorial?',
+            when: ({ confirmTutorials }) => confirmTutorials
+          },
+          {
+          type: 'confirm',
+          name: 'addTutorials',
+          message: 'Do you want to add another tutorial?',
+          default: false,
+          when: ({ confirmTutorials }) => confirmTutorials
+        },
 
+        ])
+
+        .then(projectData => {
+            portfolioData.tutorialsInfo.push(projectData);
+            if (projectData.addTutorials) {
+              return promptTutorials(portfolioData);
+            } else {
+              return portfolioData;
+            }
+          });
+ };
 
 // Function call to initialize app
 init()
   .then(promptColab)
   .then(promptScreenshot)
   .then(promptThirdParty)
+  .then(promptTutorials)
   .then(portfolioData => {
       return portfolioData,
       console.log(portfolioData);
