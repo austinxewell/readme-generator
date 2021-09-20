@@ -1,37 +1,14 @@
 // TODO: Include packages needed for this application
 const inquirer = require('inquirer');
-
-// TODO: Create an array of questions for user input
-const questions = [
-    // Title Questions
-    // {question: 'What is the title of your project?'},
-    // Description Questions
-    // {question: 'What is a description of your project?'},
-    // Installation Questions
-    // {question: 'Do you have installation instructions?'},
-    // {question: 'What are your installation instructions?'},
-    // Usage Questions
-    // {question: 'Describe how you use your project'},
-    // {question: 'Would you like to include screenshots of your project?'},
-    // {question: 'Please provide SRC for your screenshot'},
-    // Credits Questions
-    // {question: 'Enter collaborators Name'},
-    // {question: 'Enter collaborators GitHub username'},
-    // {question: 'Did you use any third-party assets that require attribution?'},
-    // {question: 'What is the name of the third-party assets?'},
-    // {question: 'What is the link to the third-party asset?'},
-
-    {question: 'Did you use any tutorials for this project?'},
-    {question: 'Enter the link to your tutorial'},
-    // License Questions
-    {question: 'What licensing do you have on your project?'},
-];
+const generatePage = require('./src/page-template.js');
+const { writeFile
+  // , copyFile 
+} = require('./utils/generate-site');
 
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {}
 
 // TODO: Create a function to initialize app
-
 const init = () => {
     return inquirer.prompt([
       {
@@ -103,7 +80,6 @@ const init = () => {
   };
   
   const promptColab = portfolioData => {
-    // If there's no 'projects' array property, create one
     if (!portfolioData.colaborators) {
       portfolioData.colaborators = [];
     }
@@ -166,7 +142,6 @@ const init = () => {
   };
 
   const promptScreenshot = portfolioData => {
-    // If there's no 'projects' array property, create one
     if (!portfolioData.screenShot) {
       portfolioData.screenShot = [];
     }
@@ -290,14 +265,21 @@ const init = () => {
           });
  };
 
+
 // Function call to initialize app
 init()
   .then(promptColab)
   .then(promptScreenshot)
   .then(promptThirdParty)
   .then(promptTutorials)
+
   .then(portfolioData => {
-      return portfolioData,
-      console.log(portfolioData);
-    // return generatePage(portfolioData);
+      // return portfolioData,
+    return generatePage(portfolioData);
   })
+  .then(pageReadme => {
+    return writeFile(pageReadme);
+  })
+  .catch(err => {
+    console.log(err);
+  });
