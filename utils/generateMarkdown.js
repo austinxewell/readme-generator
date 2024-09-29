@@ -1,26 +1,13 @@
 import * as formatMarkdown from "./formatMarkdown.js";
-
 export function generateMarkdown(data) {
-  const {
-    username,
-    email,
-    title,
-    description,
-    installation,
-    usage,
-    confirmLicense,
-    license,
-    contributing,
-    tests,
-  } = data;
-
-  return `# ${title} ${formatMarkdown.renderLicenseBadge(license)}
+    const { username, email, title, description, installation, usage, confirmLicense, license, contributing, tests, } = data;
+    return `# ${title} ${formatMarkdown.renderLicenseBadge(license)}
   ## Description
   ${description}
   ## Table of Contents
   - [Installation](#installation)
   - [Usage](#usage)
-  ${formatMarkdown.renderLicenseTitleTOC()}
+  ${formatMarkdown.renderLicenseTitleTOC(license)}
   - [Contributing](#contributing)
   - [Tests](#tests)
   - [Questions](#questions)
