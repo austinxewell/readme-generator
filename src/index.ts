@@ -10,13 +10,13 @@ const writeToFile = (data: any) => {
     }
 
     console.log(`
-********************************************
-*                                          *
-* 🎉 README.md Successfully Generated! 🎉 *
-*                                          *
-*     Please view in "dist/README.md"      *
-*                                          *
-********************************************
+************************************************
+*                                              *
+*   🎉 README.md Successfully Generated! 🎉   *
+*                                              *
+*   Please view in "dist/GeneratedREADME.md"   *
+*                                              *
+************************************************
 `);
   });
 };

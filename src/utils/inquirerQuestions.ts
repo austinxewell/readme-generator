@@ -2,13 +2,27 @@
 export const questions = [
   {
     type: "input",
+    name: "primaryContributor",
+    message: "What Name Would You Like to Use as the Primary Contributor?",
+    validate: (confirmed: any) => {
+      if (confirmed) {
+        return true;
+      } else {
+        console.log("Please Provide a Primary Contributor For This Project!");
+        return false;
+      }
+    },
+  },
+  {
+    type: "input",
     name: "username",
-    message: "Enter your GitHub username:",
+    message:
+      "Enter the Project GitHub Username or Primary Contributor GitHub Username:",
     validate: (usernameInput: any) => {
       if (usernameInput) {
         return true;
       } else {
-        console.log("Please enter your GitHub username!");
+        console.log("Please Provide a GitHub Username For This Project!");
         return false;
       }
     },
@@ -16,12 +30,13 @@ export const questions = [
   {
     type: "input",
     name: "email",
-    message: "Enter your email address:",
+    message:
+      "Enter the Project Email Address or Primary Contributor Email Address:",
     validate: (emailInput: any) => {
       if (emailInput) {
         return true;
       } else {
-        console.log("Please enter your email!");
+        console.log("Please Provide an Email Address For This Project!");
         return false;
       }
     },
@@ -29,12 +44,12 @@ export const questions = [
   {
     type: "input",
     name: "title",
-    message: "Enter your project title:",
+    message: "Enter The Project Title:",
     validate: (titleInput: any) => {
       if (titleInput) {
         return true;
       } else {
-        console.log("Please enter your project title!");
+        console.log("Please Provide the Title For This Project!");
         return false;
       }
     },
@@ -42,26 +57,85 @@ export const questions = [
   {
     type: "input",
     name: "description",
-    message: "Enter a description of your project:",
+    message: "Enter a Description of the Project:",
     validate: (descriptionInput: any) => {
       if (descriptionInput) {
         return true;
       } else {
-        console.log("Please enter a description for your project!");
+        console.log("Please Provide a Description For This Project!");
         return false;
       }
     },
   },
   {
+    type: "confirm",
+    name: "confirmNpm",
+    message: "Are You Using NPM in This Project?",
+    validate: (confirmed: any) => {
+      if (confirmed) {
+        return true;
+      } else {
+        console.log("Please Confirm if You Are Using Node on This Project?");
+      }
+    },
+  },
+  {
+    type: "input",
+    name: "nodeVersion",
+    message: "What Version of Node Are You Using?",
+    validate: (confirmed: any) => {
+      if (confirmed) {
+        return true;
+      } else
+        console.log(
+          "Please Provide Which Version of Node You Are Using For This Project"
+        );
+    },
+    when: ({ confirmNpm }: any) => {
+      return !!confirmNpm;
+    },
+  },
+  {
+    type: "checkbox",
+    name: "usedTech",
+    message:
+      "Which Technologies Did You Use in Your Project? Select All That Apply.",
+    choices: [
+      { name: "-- Front End Frameworks --", disabled: true },
+      { name: "React", value: "react" },
+      { name: "Vue.js", value: "vue" },
+      { name: "Angular", value: "angular" },
+      { name: "Svelte", value: "svelte" },
+      { name: "Ember.js", value: "ember" },
+      { name: "Backbone.js", value: "backbone" },
+      { name: "Next.js", value: "next" },
+      { name: "Nuxt.js", value: "nuxt" },
+      { name: "Gatsby", value: "gatsby" },
+      { name: "Alpine.js", value: "alpine" },
+
+      { name: "-- Back End Frameworks --", disabled: true },
+      { name: "Node.js (with Express)", value: "node_express" },
+      { name: "Django", value: "django" },
+      { name: "Flask", value: "flask" },
+      { name: "Ruby on Rails", value: "rails" },
+      { name: "Spring Boot (Java)", value: "spring_boot" },
+      { name: "ASP.NET Core", value: "aspnet" },
+      { name: "Laravel (PHP)", value: "laravel" },
+      { name: "FastAPI (Python)", value: "fastapi" },
+      { name: "Koa.js", value: "koa" },
+      { name: "Phoenix (Elixir)", value: "phoenix" },
+    ],
+  },
+  {
     type: "input",
     name: "installation",
     message:
-      "Provide the steps required to install your project. Separate your steps using a | symbol:",
+      "Provide The Steps Required to Install Your Project. Separate Your Steps Using a | Symbol:",
     validate: (installationInput: any) => {
       if (installationInput) {
         return true;
       } else {
-        console.log("Please enter installation steps for your project!");
+        console.log("Please Provide Installation Steps For This Project!");
         return false;
       }
     },
@@ -70,12 +144,12 @@ export const questions = [
     type: "input",
     name: "usage",
     message:
-      "Provide instructions for your project. Separate your steps using a | symbol:",
+      "Provide Usage Instructions For Your Project. Separate Your Steps Using a | Symbol:",
     validate: (usageInput: any) => {
       if (usageInput) {
         return true;
       } else {
-        console.log("Please provide usage instructions for your project!");
+        console.log("Please Provide Usage Instructions For This Project!");
         return false;
       }
     },
@@ -83,13 +157,13 @@ export const questions = [
   {
     type: "confirm",
     name: "confirmLicense",
-    message: "Would you like to include a license for your project?",
+    message: "Would You Like to Include a License For This Project?",
     default: false,
   },
   {
     type: "list",
     name: "license",
-    message: "Select a license for your project:",
+    message: "Select a License For This Project:",
     choices: [
       "Creative Commons (Creative Work)",
       "MIT (Permissive Open Source)",
@@ -107,20 +181,20 @@ export const questions = [
     type: "confirm",
     name: "confirmContributors",
     message:
-      "Other than yourself, were there other contributors to this project?",
+      "Other Than The Primary Contributor, Were There Other Contributors to This Project?",
     default: false,
   },
   {
     type: "input",
     name: "contributing",
     message:
-      "Name the other contributors.  Separate your contributors using a | symbol:",
+      "Name All Other Contributors. Separate Each Contributor Using a | Symbol:",
     validate: (contributingInput: any) => {
       if (contributingInput) {
         return true;
       } else {
         console.log(
-          "Please provide other Contributors you would like to credit for this project!"
+          "Please Provide All Contributors That Should Be Credited For This Project!"
         );
         return false;
       }
@@ -133,12 +207,12 @@ export const questions = [
     type: "input",
     name: "tests",
     message:
-      "Provide examples on how to run tests you've written for your project.  Separate your tests using a | symbol:",
+      "Provide Examples on How to Run Tests Written For This Project. Separate Your Tests Using a | Symbol:",
     validate: (testsInput: any) => {
       if (testsInput) {
         return true;
       } else {
-        console.log("Please provide testing examples!");
+        console.log("Please Provide Testing Examples For This Project!");
         return false;
       }
     },

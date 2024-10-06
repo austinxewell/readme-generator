@@ -7,7 +7,7 @@ export const renderLicenseTitleTOC = (license: string | undefined) => {
 
 export const renderLicenseTitle = (confirmLicense: boolean) => {
   if (confirmLicense) {
-    return `# License`;
+    return `## License`;
   } else {
     return ``;
   }
@@ -17,8 +17,18 @@ export const renderLicenseBadge = (license: string | undefined) => {
   if (license === undefined || license === "None") {
     return "";
   }
+
   const licenseStr = license.split(" (")[0].replace(/ /g, "_");
   return `![Static Badge](https://img.shields.io/badge/License-${licenseStr}-blue)`;
+};
+
+export const renderNpmBadge = (npmVersion: string | undefined) => {
+  if (npmVersion === undefined) {
+    return "";
+  }
+
+  const badgeString = npmVersion.split(" (")[0].replace(/ /g, "_");
+  return `![Static Badge](https://img.shields.io/badge/Node-${badgeString}-green)`;
 };
 
 export const renderLicenseSection = (license: string | undefined) => {

@@ -57,6 +57,63 @@ export const questions = [
         },
     },
     {
+        type: "confirm",
+        name: "confirmNpm",
+        message: "Are you using NPM in this project?",
+        validate: (confirmed) => {
+            if (confirmed) {
+                return true;
+            }
+            else {
+                console.log("Please confirm if you are using Node on this project?");
+            }
+        },
+    },
+    {
+        type: "input",
+        name: "nodeVersion",
+        message: "What Node Version are you using?",
+        validate: (confirmed) => {
+            if (confirmed) {
+                return true;
+            }
+            else
+                console.log("Please type which version of Node you are using");
+        },
+        when: ({ confirmNpm }) => {
+            return !!confirmNpm;
+        },
+    },
+    {
+        type: "checkbox",
+        name: "usedTech",
+        message: "Which Technologies did you use in your project? Select all that apply.",
+        choices: [
+            { name: "-- Front End Frameworks --", disabled: true },
+            { name: "React", value: "react" },
+            { name: "Vue.js", value: "vue" },
+            { name: "Angular", value: "angular" },
+            { name: "Svelte", value: "svelte" },
+            { name: "Ember.js", value: "ember" },
+            { name: "Backbone.js", value: "backbone" },
+            { name: "Next.js", value: "next" },
+            { name: "Nuxt.js", value: "nuxt" },
+            { name: "Gatsby", value: "gatsby" },
+            { name: "Alpine.js", value: "alpine" },
+            { name: "-- Back End Frameworks --", disabled: true },
+            { name: "Node.js (with Express)", value: "node_express" },
+            { name: "Django", value: "django" },
+            { name: "Flask", value: "flask" },
+            { name: "Ruby on Rails", value: "rails" },
+            { name: "Spring Boot (Java)", value: "spring_boot" },
+            { name: "ASP.NET Core", value: "aspnet" },
+            { name: "Laravel (PHP)", value: "laravel" },
+            { name: "FastAPI (Python)", value: "fastapi" },
+            { name: "Koa.js", value: "koa" },
+            { name: "Phoenix (Elixir)", value: "phoenix" },
+        ],
+    },
+    {
         type: "input",
         name: "installation",
         message: "Provide the steps required to install your project. Separate your steps using a | symbol:",

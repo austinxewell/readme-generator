@@ -19,6 +19,13 @@ export const renderLicenseBadge = (license) => {
     const licenseStr = license.split(" (")[0].replace(/ /g, "_");
     return `![Static Badge](https://img.shields.io/badge/License-${licenseStr}-blue)`;
 };
+export const renderNpmBadge = (npmVersion) => {
+    if (npmVersion === undefined) {
+        return "";
+    }
+    const badgeString = npmVersion.split(" (")[0].replace(/ /g, "_");
+    return `![Static Badge](https://img.shields.io/badge/License-${badgeString}-green)`;
+};
 export const renderLicenseSection = (license) => {
     if (!license) {
         return "";

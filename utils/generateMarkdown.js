@@ -1,7 +1,7 @@
 import * as formatMarkdown from "./formatMarkdown.js";
 export function generateMarkdown(data) {
-    const { username, email, title, description, installation, usage, confirmLicense, license, contributing, tests, } = data;
-    return `# ${title} ${formatMarkdown.renderLicenseBadge(license)}
+    const { username, email, title, description, nodeVersion, usedTech, installation, usage, confirmLicense, license, contributing, tests, } = data;
+    return `# ${title} ${formatMarkdown.renderLicenseBadge(license)} ${formatMarkdown.renderNpmBadge(nodeVersion)}
   ## Description
   ${description}
   ## Table of Contents

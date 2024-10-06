@@ -2,10 +2,13 @@ import * as formatMarkdown from "./formatMarkdown.js";
 
 export function generateMarkdown(data: any): string {
   const {
+    primaryContributor,
     username,
     email,
     title,
     description,
+    nodeVersion,
+    usedTech,
     installation,
     usage,
     confirmLicense,
@@ -14,7 +17,9 @@ export function generateMarkdown(data: any): string {
     tests,
   } = data;
 
-  return `# ${title} ${formatMarkdown.renderLicenseBadge(license)}
+  return `# ${title} ${formatMarkdown.renderLicenseBadge(
+    license
+  )} ${formatMarkdown.renderNpmBadge(nodeVersion)}
   ## Description
   ${description}
   ## Table of Contents
@@ -31,6 +36,7 @@ export function generateMarkdown(data: any): string {
   ${formatMarkdown.renderLicenseTitle(confirmLicense)}
   ${formatMarkdown.renderLicenseSection(license)}
   ## Contributing
+  - ${primaryContributor}
   ${formatMarkdown.formatSteps(contributing)}
   ## Tests
   ${formatMarkdown.formatSteps(tests)}
