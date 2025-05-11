@@ -16,6 +16,28 @@ This is a command-line application that generates a high-quality, professional `
 - [Tests](#tests)
 - [Questions](#questions)
 
+## 📸 Screenshots
+
+**Initial Prompt**
+
+![Initial Prompt](https://i.postimg.cc/bYsKgJz3/readme-prompt-1.png)
+
+**Selecting License**
+
+![Selecting License](https://i.postimg.cc/RFbLq4y0/readme-selecting-license.png)
+
+**Creating Lists**
+
+![Creating Lists](https://i.postimg.cc/6q2LvFxf/readme-creating-lists.png)
+
+**Final Confirmation Screen**
+
+![Final Screen](https://i.postimg.cc/tJKdtDXQ/readme-final-screen.png)
+
+**Success Notification**
+
+![Success Notification](https://i.postimg.cc/ydNTVkf5/readme-success-notification.png)
+
 <h2 id="installation">🚀 Installation</h2>
 
 - Cone repo with: `https://github.com/austinxewell/readme-generator.git`
