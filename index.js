@@ -1,30 +1,46 @@
 import fs from "fs";
 import inquirer from "inquirer";
+import clipboard from "clipboardy";
 import { generateMarkdown } from "./utils/generateMarkdown.js";
 import { questions } from "./utils/inquirerQuestions.js";
+
+const outputPath = "./dist/GeneratedREADME.md";
+
 const writeToFile = (data) => {
-    fs.writeFile("./dist/GeneratedREADME.md", data, (err) => {
+    if (fs.existsSync(outputPath)) {
+        fs.unlinkSync(outputPath);
+    }
+
+    fs.writeFile(outputPath, data, (err) => {
         if (err) {
-            console.log(err);
+            console.error(err);
+            return;
         }
+
+        clipboard.writeSync(data);
+
         console.log(`
-********************************************
-*                                          *
-* 🎉 README.md Successfully Generated! 🎉 *
-*                                          *
-*     Please view in "dist/README.md"      *
-*                                          *
-********************************************
-`);
+            ********************************************
+            *                                          *
+            * 🎉 README.md Successfully Generated! 🎉  *
+            *                                          *
+            *     Please view in "dist/README.md"      *
+            *                                          *
+            * 📋 Contents also copied to clipboard!    *
+            *                                          *
+            ********************************************
+        `);
     });
 };
+
 const init = () => {
-    return inquirer
+    inquirer
         .prompt(questions)
         .then((readmeData) => generateMarkdown(readmeData))
         .then((markdownContent) => writeToFile(markdownContent))
         .catch((err) => {
-        console.log(err);
-    });
+            console.error(err);
+        });
 };
+
 init();

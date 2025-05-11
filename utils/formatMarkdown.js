@@ -6,7 +6,7 @@ export const renderLicenseTitleTOC = (license) => {
 };
 export const renderLicenseTitle = (confirmLicense) => {
     if (confirmLicense) {
-        return `# License`;
+        return `<h2 id="license">License</h2>`;
     }
     else {
         return ``;
@@ -24,7 +24,7 @@ export const renderNpmBadge = (npmVersion) => {
         return "";
     }
     const badgeString = npmVersion.split(" (")[0].replace(/ /g, "_");
-    return `![Static Badge](https://img.shields.io/badge/License-${badgeString}-green)`;
+    return `![Static Badge](https://img.shields.io/badge/Node-${badgeString}-green)`;
 };
 export const renderLicenseSection = (license) => {
     if (!license) {
@@ -59,6 +59,12 @@ export const renderLicenseSection = (license) => {
   A license with no conditions whatsoever which dedicates works to the public domain. Unlicensed works, modifications, and larger works may be distributed under different terms and without source code.`;
     }
 };
+export const formatContributors = (contributors) => {
+    if (!contributors) {
+        return "This is an independent project. No other contributors were involved in the development of this project.";
+    }
+    return formatSteps(contributors);
+};
 export const formatSteps = (answer) => {
     if (answer === undefined) {
         return;
@@ -71,5 +77,23 @@ export const formatSteps = (answer) => {
         .map((step) => step.trim())
         .filter((step) => step !== "");
     const formattedSteps = steps.map((step) => `- ${step}`);
-    return formattedSteps.join("\n  ");
+    return formattedSteps.join("\n");
+};
+export const formatTechStack = (techArray) => {
+    if (!Array.isArray(techArray) || techArray.length === 0) {
+        return "No Tech Provided";
+    }
+
+    const formatted = techArray
+        .map((tech) => tech.trim().replace(/_/g, " "))
+        .map((tech) =>
+            tech
+                .split(" ")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" ")
+        )
+        .map((tech) => `- ${tech}`)
+        .join("\n");
+
+    return formatted;
 };
