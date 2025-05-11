@@ -52,6 +52,8 @@ This is a command-line application that generates a high-quality, professional `
 <h2 id="tech-stack">🛠 Tech Stack</h2>
 
 - Node + Express
+- JavaScript
+- TypeScript
 - Inquirer
 - Clipboardy
 
